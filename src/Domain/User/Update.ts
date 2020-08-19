@@ -1,11 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { User } from './User';
-import { UserRepository } from '../../Persistence/User/Repository';
+import { IUserRepository } from './IUserRepository';
+
+const UserRepo = () => Inject('UserRepo');
 
 @Injectable()
 export class Update {
 	constructor(
-		private readonly userRepository: UserRepository,
+		@UserRepo() private readonly userRepository: IUserRepository,
 	) {}
 
 	public async Update(userId: string, toUpdate: Partial<User>): Promise<void> {
